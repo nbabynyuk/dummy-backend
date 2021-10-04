@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-backend-deployment
+  labels:
+    app: sample-backend
+spec:
+  replicas: 3
+  minReadySeconds: 10
+  progressDeadlineSeconds: 60
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: sample-backend
+  template:
+    metadata:
+      labels:
+        app: sample-backend
+    spec:
+      containers:
+        - name: sample-backend
+          image: sample-app-backend:0.0.2
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SAMPLE-APP-CONFIG-VALUE   #1 hand-pick env variable
+              valueFrom:
+                configMapKeyRef:
+                  name: sample-app-config
+                  key: SAMPLE-APP-CONFIG-VALUE 
+            - name: SAMPLE-APP-SECRET-VALUE
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: DB_PASSWORD
+          envFrom: #2 load all enviroment variables
+            - configMapRef:
+                name: sample-app-config
+          volumeMounts:
+            - mountPath: /etc/custom-app-config
+              name: volume-with-config-settings
+      volumes:
+        - name: volume-with-config-settings
+          configMap: 
+            name: sample-app-config
+      
