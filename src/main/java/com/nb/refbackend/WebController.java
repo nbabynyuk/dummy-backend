@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @RestController
@@ -20,10 +21,12 @@ public class WebController {
     
     @GetMapping
     public Map<String, String> index() {
-        return Map.of("version", "0.0.3",
-            "sampleConfigValue", sampleConfigValue,
-            "sampleSecretValue", sampleSecretValue,
-            "hostname", getHostname());
+        Map<String, String> result = new LinkedHashMap<>();
+        result.put("sampleConfigValue", sampleConfigValue);
+        result.put("sampleSecretValue", sampleSecretValue);
+        result.put("version", "0.0.5");
+        result.put("hostname", getHostname());
+        return result;
     }
 
     private String getHostname() {

@@ -5,21 +5,27 @@ metadata:
   labels:
     app: sample-backend
 spec:
-  replicas: 3
+  replicas: 2
   minReadySeconds: 10
   progressDeadlineSeconds: 60
   revisionHistoryLimit: 5
+  strategy: 
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
   selector:
     matchLabels:
       app: sample-backend
+      track: stable
   template:
     metadata:
       labels:
         app: sample-backend
+        track: stable
     spec:
       containers:
         - name: sample-backend
-          image: sample-app-backend:0.0.2
+          image: sample-app-backend:0.0.5
           ports:
             - containerPort: 8080
           env:
