@@ -8,5 +8,5 @@ spec:
     app: sample-backend
   ports:
     # By default and for convenience, the `targetPort` is set to the same value as the `port` field.
-    - port: 30008
+    - port: 80
       targetPort: 8080

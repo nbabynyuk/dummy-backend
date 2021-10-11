@@ -5,7 +5,7 @@ metadata:
   labels:
     app: sample-backend
 spec:
-  replicas: 2
+  replicas: 3
   minReadySeconds: 10
   progressDeadlineSeconds: 60
   revisionHistoryLimit: 5
@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: sample-backend
-          image: sample-app-backend:0.0.5
+          image: nbaksdemocr.azurecr.io/nb-dummy-backend:0.0.5
           ports:
             - containerPort: 8080
           env:
